@@ -9,7 +9,7 @@ router.post(
   [
     check("title").notEmpty().withMessage("Title is required"),
     check("author").notEmpty().withMessage("Author is required"),
-    check("isbn").isISBN().withMessage("Invalid ISBN code"),
+    check("isbn").notEmpty().isISBN().withMessage("Invalid ISBN code"),
   ],
   (req, res) => {
     const errors = validationResult(req);
@@ -18,7 +18,7 @@ router.post(
     }
     const { title, author, genre, publicationDate, isbn } = req.body;
     db.run(
-      `INSERT INTO Invetory (Title, Author, Genre, PublicationDate, ISBN) VALUES (?, ?, ?, ?, ?)`,
+      `INSERT INTO INVENTORY (Title, Author, Genre, PublicationDate, ISBN) VALUES (?, ?, ?, ?, ?)`,
       [title, author, genre, publicationDate, isbn],
       function (err) {
         if (err) {
