@@ -1,3 +1,8 @@
+/*
+All the Routes will be written in this file. 
+We use express-validator to ensure inputs are valid (ISBN constraints, non-empty text boxes)
+*/
+
 const express = require("express");
 const { check, validationResult } = require("express-validator");
 const db = require("../database");
@@ -7,6 +12,7 @@ const router = express.Router();
 router.post(
   "/books",
   [
+    // Ensure all important information is filled out
     check("title").notEmpty().withMessage("Title is required"),
     check("author").notEmpty().withMessage("Author is required"),
     check("isbn").notEmpty().isISBN().withMessage("Invalid ISBN code"),
@@ -46,11 +52,11 @@ router.get("/books", (req, res) => {
     cond.push("Author LIKE ?");
     values.push(`%${author}%`);
   }
-  // Queries with these conditions are strict (there's really no reason for values to be slightly different)
   if (genre) {
-    cond.push("Genre = ?");
+    cond.push("Genre LIKE ?");
     values.push(genre);
   }
+  // Queries using these two categories need to be strict
   if (publicationDate) {
     cond.push("PublicationDate = ?");
     values.push(publicationDate);
@@ -59,7 +65,7 @@ router.get("/books", (req, res) => {
     cond.push("ISBN = ?");
     values.push(isbn);
   }
-
+  // Construct the SQL query and run it through the db to return values.
   const sqlQuery = cond.length ? `WHERE ${cond.join(" AND ")}` : "";
 
   db.all(`SELECT * FROM INVENTORY ${sqlQuery}`, values, (err, rows) => {
@@ -78,6 +84,7 @@ router.get("/books/export", (req, res) => {
       return res.status(500).json({ error: err.message });
     }
     if (format === "csv") {
+      // json2csv converter
       const { Parser } = require("json2csv");
       const csv = new Parser().parse(rows);
       res.header("Content-Type", "text/csv");

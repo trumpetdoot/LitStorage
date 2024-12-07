@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 const FilterForm = ({ onFilter }) => {
   const [filters, setFilters] = useState({
+    // Payload form
     title: "",
     author: "",
     genre: "",
@@ -10,11 +11,12 @@ const FilterForm = ({ onFilter }) => {
   });
 
   const handleChange = (e) => {
+    // Fill out filters based on text box response
     setFilters({ ...filters, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault(); // React app doesn't need a reload
     onFilter(filters);
   };
 
@@ -52,7 +54,7 @@ const FilterForm = ({ onFilter }) => {
         />
       </div>
       <div className="form-group">
-        <label>Genre</label>
+        <label>Publication Date</label>
         <input
           type="text"
           className="form-control"
@@ -62,7 +64,7 @@ const FilterForm = ({ onFilter }) => {
         />
       </div>
       <div className="form-group">
-        <label>Genre</label>
+        <label>ISBN Code</label>
         <input
           type="text"
           className="form-control"

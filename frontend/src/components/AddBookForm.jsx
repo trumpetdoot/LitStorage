@@ -3,6 +3,7 @@ import axios from "axios";
 
 const AddBookForm = ({ onBookAdded }) => {
   const [formData, setFormData] = useState({
+    // Payload form
     title: "",
     author: "",
     genre: "",
@@ -12,14 +13,18 @@ const AddBookForm = ({ onBookAdded }) => {
   const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
+    // Fill out form data from text box
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // No need to reload the page given that this is a react app
     try {
+      // POST request with information filled out in the form
       const response = await axios.post("/api/books", formData);
       setMessage("Book added successfully!");
+
+      // Return setForm to default empty list so that a new book can be added
       setFormData({
         title: "",
         author: "",
@@ -27,12 +32,13 @@ const AddBookForm = ({ onBookAdded }) => {
         publicationDate: "",
         isbn: "",
       });
-      onBookAdded(); // Refresh the book list
+      onBookAdded(); // Refresh the book list without need to reload app
     } catch (err) {
       setMessage("Failed to add book. Check your input or try again.");
     }
   };
 
+  // Form to Add new books
   return (
     <form onSubmit={handleSubmit} className="mb-4">
       <h2>Add a New Book</h2>

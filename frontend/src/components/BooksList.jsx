@@ -1,5 +1,6 @@
 import React from "react";
 
+// Displays current books in the database
 const BooksList = ({ books }) => {
   if (books.length === 0) {
     return <p>No books found. Add a book or adjust filters.</p>;
@@ -9,7 +10,6 @@ const BooksList = ({ books }) => {
     <table className="table table-striped">
       <thead>
         <tr>
-          <th>#</th>
           <th>Title</th>
           <th>Author</th>
           <th>Genre</th>
@@ -20,7 +20,6 @@ const BooksList = ({ books }) => {
       <tbody>
         {books.map((book, index) => (
           <tr key={book.EntryID}>
-            <td>{index + 1}</td>
             <td>{book.Title}</td>
             <td>{book.Author}</td>
             <td>{book.Genre}</td>

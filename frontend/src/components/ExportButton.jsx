@@ -5,14 +5,14 @@ const ExportButton = () => {
     const res = await fetch(`/api/books/export?format=${format}`);
     const blob = await res.blob();
     const url = window.URL.createObjectURL(blob);
-    const link = document.createElement("a");
+    const link = document.createElement("a"); // Creates a link with the URL to blob that we can click and download
     link.href = url;
-    link.download = `books.${format}`;
+    link.download = `books.${format}`; // file name
     link.click();
+    window.URL.revokeObjectURL(url); // cleanup
   };
   return (
     <div className="mt-4">
-      <h2>Export Data</h2>
       <button
         className="btn btn-outline-success me-2"
         onClick={() => handleExport("csv")}
