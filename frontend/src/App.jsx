@@ -4,6 +4,9 @@ import FilterForm from "./components/FilterForm";
 import BooksList from "./components/BooksList";
 import ExportButton from "./components/ExportButton";
 import axios from "axios";
+import Login from "./components/Login";
+import Logout from "./components/Logout";
+import Profile from "./components/Profile";
 
 const App = () => {
   const [books, setBooks] = useState([]);
@@ -21,21 +24,27 @@ const App = () => {
   // Display information in two columns, one for books, other for forms to fill out (add or filter).
   // Export button right below the books list
   return (
-    <div className="container mt-4">
-      <h1 className="text-center">Book Inventory</h1>
-      <div className="row">
-        <div className="col-md-8">
-          <BooksList books={books} />
-          <div className="d-flex justify-content-start mt-3">
-            <ExportButton />
+    <>
+      <Login />
+      <Logout />
+      <Profile />
+
+      <div className="container mt-4">
+        <h1 className="text-center">Book Inventory</h1>
+        <div className="row">
+          <div className="col-md-8">
+            <BooksList books={books} />
+            <div className="d-flex justify-content-start mt-3">
+              <ExportButton />
+            </div>
+          </div>
+          <div className="col-md-4">
+            <AddBookForm onBookAdded={fetchBooks} />
+            <FilterForm onFilter={fetchBooks} />
           </div>
         </div>
-        <div className="col-md-4">
-          <AddBookForm onBookAdded={fetchBooks} />
-          <FilterForm onFilter={fetchBooks} />
-        </div>
       </div>
-    </div>
+    </>
   );
 };
 
